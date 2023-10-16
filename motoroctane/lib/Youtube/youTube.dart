@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:motoroctane/Youtube/youtubestructure.dart';
 import 'package:motoroctane/widgets/headerFooter/footer.dart';
 import 'package:motoroctane/widgets/headerFooter/header.dart';
+import 'package:motoroctane/widgets/headerFooter/headertest.dart';
+import 'package:motoroctane/widgets/headerFooter/navDrawer.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class Youtube extends StatelessWidget {
-  const Youtube({super.key});
+  Youtube({super.key});
+
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +47,21 @@ class Youtube extends StatelessWidget {
 
     YoutubePlayerController _controller;
 
+    Function() drawww = () {
+      _scaffoldKey.currentState?.openDrawer();
+    };
+
     return Scaffold(
+      drawer: NavDrawer(),
+      key: _scaffoldKey,
       backgroundColor: Colors.white,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: Image.asset("assets/icons/whatsapp.png"),
       ),
-      appBar: HeaderAll(
+      appBar: HeaderAlltest(
         appBar: AppBar(),
+        drawerr: drawww,
       ),
       body: SingleChildScrollView(
         child: Column(

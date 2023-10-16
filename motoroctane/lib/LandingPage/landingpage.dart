@@ -11,6 +11,8 @@ import 'package:motoroctane/LandingPage/Widgets/phaseFourth.dart';
 import 'package:motoroctane/widgets/CarsDatatype.dart';
 import 'package:motoroctane/widgets/headerFooter/footer.dart';
 import 'package:motoroctane/widgets/headerFooter/header.dart';
+import 'package:motoroctane/widgets/headerFooter/headertest.dart';
+import 'package:motoroctane/widgets/headerFooter/navDrawer.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:flutter/foundation.dart';
 import 'package:motoroctane/widgets/landingpage/verticledash.dart';
@@ -59,19 +61,40 @@ class _LandingPageState extends State<LandingPage> {
     double width = size.width;
     double height1 = size.height;
 
+    GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 // Height (without SafeArea)
     final padding = MediaQuery.of(context).viewPadding;
     double height = height1 - padding.top - padding.bottom;
+    bool draw = false;
+    // void openWidget() {
+    //   // if (draw == true) {
+    //   print("here");
+    //   _scaffoldKey.currentState?.openDrawer();
+    //   // }
+    // }
+
+    Function() drawww = () {
+      _scaffoldKey.currentState?.openDrawer();
+    };
+
+    // var draww = _scaffoldKey.currentState?.openDrawer();
 
     return SafeArea(
       child: Scaffold(
+        drawer: NavDrawer(),
+        key: _scaffoldKey,
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            print("whatsapp");
+            // _scaffoldKey.currentState?.openDrawer();
+          },
           child: Image.asset("assets/icons/whatsapp.png"),
         ),
-        appBar: HeaderAll(
+        appBar: HeaderAlltest(
           appBar: AppBar(),
+          drawerr: drawww,
         ),
         body: SingleChildScrollView(
           child: Column(

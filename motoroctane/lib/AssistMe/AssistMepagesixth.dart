@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'package:motoroctane/widgets/headerFooter/footer.dart';
 import 'package:motoroctane/widgets/headerFooter/header.dart';
+import 'package:motoroctane/widgets/headerFooter/headertest.dart';
+import 'package:motoroctane/widgets/headerFooter/navDrawer.dart';
 
 class AssistmeSixth extends StatefulWidget {
   const AssistmeSixth({super.key});
@@ -36,11 +38,21 @@ class _AssistmeSixthState extends State<AssistmeSixth> {
   bool brand21 = false;
   bool brand22 = false;
 
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
+    Function() drawww = () {
+      _scaffoldKey.currentState?.openDrawer();
+    };
     return SafeArea(
       child: Scaffold(
-        appBar: HeaderAll(appBar: AppBar()),
+        drawer: NavDrawer(),
+        key: _scaffoldKey,
+        appBar: HeaderAlltest(
+          appBar: AppBar(),
+          drawerr: drawww,
+        ),
         body: Column(
           children: [
             Stack(

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:motoroctane/AssistMe/assistMePagesecond.dart';
 import 'package:motoroctane/widgets/headerFooter/footer.dart';
 import 'package:motoroctane/widgets/headerFooter/header.dart';
+import 'package:motoroctane/widgets/headerFooter/headertest.dart';
+import 'package:motoroctane/widgets/headerFooter/navDrawer.dart';
 
 class AssistmeFirst extends StatefulWidget {
   const AssistmeFirst({super.key});
@@ -18,6 +20,7 @@ class _AssistmeFirstState extends State<AssistmeFirst> {
   RangeValues valuesf = const RangeValues(20, 80);
   double minval = 20;
   double maxval = 20;
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +37,19 @@ class _AssistmeFirstState extends State<AssistmeFirst> {
     final padding = MediaQuery.of(context).viewPadding;
     double height = height1 - padding.top - padding.bottom;
 
+    Function() drawww = () {
+      _scaffoldKey.currentState?.openDrawer();
+    };
+
     return SafeArea(
       child: Scaffold(
+        drawer: NavDrawer(),
+        key: _scaffoldKey,
         backgroundColor: Colors.grey.shade300,
-        appBar: HeaderAll(appBar: AppBar()),
+        appBar: HeaderAlltest(
+          appBar: AppBar(),
+          drawerr: drawww,
+        ),
         body: Column(
           children: [
             Container(

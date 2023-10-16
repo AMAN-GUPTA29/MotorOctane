@@ -7,6 +7,8 @@ import 'package:motoroctane/servicePage.dart/serviceCentre.dart';
 import 'package:motoroctane/widgets/CarsDatatype.dart';
 import 'package:motoroctane/widgets/headerFooter/footer.dart';
 import 'package:motoroctane/widgets/headerFooter/header.dart';
+import 'package:motoroctane/widgets/headerFooter/headertest.dart';
+import 'package:motoroctane/widgets/headerFooter/navDrawer.dart';
 import 'package:searchfield/searchfield.dart';
 
 class ServiceNetwork extends StatefulWidget {
@@ -19,6 +21,8 @@ class ServiceNetwork extends StatefulWidget {
 class _ServiceNetworkState extends State<ServiceNetwork> {
   bool feature1 = false;
   bool feature2 = false;
+
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     List<String> cityn = [
@@ -79,10 +83,17 @@ class _ServiceNetworkState extends State<ServiceNetwork> {
     var SearchedTitle;
     TextEditingController searchedText = TextEditingController();
 
+    Function() drawww = () {
+      _scaffoldKey.currentState?.openDrawer();
+    };
+
     return SafeArea(
         child: Scaffold(
-      appBar: HeaderAll(
+      drawer: NavDrawer(),
+      key: _scaffoldKey,
+      appBar: HeaderAlltest(
         appBar: AppBar(),
+        drawerr: drawww,
       ),
       body: SingleChildScrollView(
         child: Column(

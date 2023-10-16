@@ -3,15 +3,26 @@ import 'package:motoroctane/privacypolicy/privacydata.dart';
 import 'package:motoroctane/widgets/headerFooter/footer.dart';
 
 import 'package:motoroctane/widgets/headerFooter/header.dart';
+import 'package:motoroctane/widgets/headerFooter/headertest.dart';
+import 'package:motoroctane/widgets/headerFooter/navDrawer.dart';
 
 class PrivacyPolicy extends StatelessWidget {
-  const PrivacyPolicy({super.key});
+  PrivacyPolicy({super.key});
+
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(Object context) {
+    Function() drawww = () {
+      _scaffoldKey.currentState?.openDrawer();
+    };
+
     return Scaffold(
-      appBar: HeaderAll(
+      drawer: NavDrawer(),
+      key: _scaffoldKey,
+      appBar: HeaderAlltest(
         appBar: AppBar(),
+        drawerr: drawww,
       ),
       body: Stack(
         children: [

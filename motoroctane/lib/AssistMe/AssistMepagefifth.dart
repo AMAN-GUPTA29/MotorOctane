@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:motoroctane/AssistMe/AssistMepagesixth.dart';
 import 'package:motoroctane/widgets/headerFooter/footer.dart';
 import 'package:motoroctane/widgets/headerFooter/header.dart';
+import 'package:motoroctane/widgets/headerFooter/headertest.dart';
+import 'package:motoroctane/widgets/headerFooter/navDrawer.dart';
 
 class AssistmeFifth extends StatefulWidget {
   const AssistmeFifth({super.key});
@@ -16,12 +18,22 @@ class AssistmeFifth extends StatefulWidget {
 class _AssistmeFifthState extends State<AssistmeFifth> {
   double newval = 1;
 
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
+    Function() drawww = () {
+      _scaffoldKey.currentState?.openDrawer();
+    };
     return SafeArea(
       child: Scaffold(
+        drawer: NavDrawer(),
+        key: _scaffoldKey,
         backgroundColor: Colors.grey.shade300,
-        appBar: HeaderAll(appBar: AppBar()),
+        appBar: HeaderAlltest(
+          appBar: AppBar(),
+          drawerr: drawww,
+        ),
         body: Column(
           children: [
             Container(

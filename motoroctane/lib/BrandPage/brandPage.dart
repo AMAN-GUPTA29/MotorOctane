@@ -9,6 +9,8 @@ import 'package:motoroctane/LandingPage/Widgets/comperison.dart';
 import 'package:motoroctane/widgets/CarsDatatype.dart';
 import 'package:motoroctane/widgets/headerFooter/footer.dart';
 import 'package:motoroctane/widgets/headerFooter/header.dart';
+import 'package:motoroctane/widgets/headerFooter/headertest.dart';
+import 'package:motoroctane/widgets/headerFooter/navDrawer.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:flutter/foundation.dart';
 import 'package:motoroctane/widgets/landingpage/verticledash.dart';
@@ -52,18 +54,28 @@ class _BrandPageState extends State<BrandPage> {
   bool sizethird = false;
   bool sizefourth = false;
 
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     double position = 0;
+
+    Function() drawww = () {
+      _scaffoldKey.currentState?.openDrawer();
+    };
+
     return SafeArea(
       child: Scaffold(
+        drawer: NavDrawer(),
+        key: _scaffoldKey,
         backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
           child: Image.asset("assets/icons/whatsapp.png"),
         ),
-        appBar: HeaderAll(
+        appBar: HeaderAlltest(
           appBar: AppBar(),
+          drawerr: drawww,
         ),
         body: SingleChildScrollView(
           child: Column(

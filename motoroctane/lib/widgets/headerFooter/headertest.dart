@@ -5,11 +5,22 @@ import 'package:flutter_svg/svg.dart';
 import 'package:motoroctane/drawer/drawer.dart';
 import 'package:motoroctane/widgets/headerFooter/navDrawer.dart';
 
-class HeaderAlltest extends StatelessWidget {
-  HeaderAlltest({super.key, required this.appBar});
+class HeaderAlltest extends StatefulWidget implements PreferredSizeWidget {
+  HeaderAlltest({super.key, required this.appBar, required this.drawerr});
 
   final AppBar appBar;
+  //  Function() drawww = drawer;
+  var drawerr;
 
+  @override
+  State<HeaderAlltest> createState() => _HeaderAlltestState();
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => Size.fromHeight(appBar.preferredSize.height + 8);
+}
+
+class _HeaderAlltestState extends State<HeaderAlltest> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -63,7 +74,10 @@ class HeaderAlltest extends StatelessWidget {
               minSize: double.minPositive,
               padding: EdgeInsets.zero,
               onPressed: () {
-                _scaffoldKey.currentState?.openDrawer();
+                // _scaffoldKey.currentState?.openDrawer();
+                setState(() {
+                  widget.drawerr();
+                });
               },
               child: SvgPicture.asset(
                 'assets/icons/hamburger_menu.svg',
@@ -107,7 +121,6 @@ class HeaderAlltest extends StatelessWidget {
   }
 
   // @override
-  // Size get preferredSize => Size.fromHeight(appBar.preferredSize.height + 1000);
 }
 
 
