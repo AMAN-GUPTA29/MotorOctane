@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
 class ComapnynameAddSecond extends StatelessWidget {
-  const ComapnynameAddSecond({super.key});
+  ComapnynameAddSecond(
+      {super.key, required this.id, required this.image, required this.rating});
+
+  String id;
+  String image;
+  // String name;
+  // String selling;
+  String rating;
 
   @override
   Widget build(Object context) {
     return Center(
       child: Column(
         children: [
-          Image.asset(
-            'assets/image/landing/OIP.jpeg',
+          Image.network(
+            "http://137.184.91.38:5000/brandImages/${image}",
             width: 160,
             color: Colors.grey.shade900,
             colorBlendMode: BlendMode.color,
@@ -27,7 +34,7 @@ class ComapnynameAddSecond extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "4.2",
+                  rating,
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,

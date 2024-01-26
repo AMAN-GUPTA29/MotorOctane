@@ -1,7 +1,10 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:motoroctane/LandingPage/landingpage.dart';
 import 'package:motoroctane/allLoginPages/register.dart';
+import 'package:motoroctane/allLoginPages/secureStorage.dart';
 import 'package:pinput/pinput.dart';
 
 class Otp extends StatefulWidget {
@@ -13,14 +16,64 @@ class Otp extends StatefulWidget {
   }
 }
 
+void callpage() {}
+
 class _OtpState extends State<Otp> {
   late Timer _timer;
   int _start = 10;
+  var id;
 
   @override
   void initState() {
     startTimer();
     super.initState();
+  }
+
+  List userList = [];
+
+  void getProfile() async {
+    id = await SecureStorage().readSecureData('_id');
+    print(id);
+    if (id == null || id == "null") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Register()),
+      );
+    } else {
+      Navigator.pushAndRemoveUntil<dynamic>(
+          context,
+          MaterialPageRoute<dynamic>(
+            builder: (BuildContext context) => LandingPage(),
+          ),
+          (Route<dynamic> route) =>
+              false //if you want to disable back feature set to false
+          );
+    }
+
+    //   SecureStorage().readSecureData('_id');
+    //   SecureStorage().readSecureData('mobile');
+
+    //   print('hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+    //   try {
+    //     var response = await Dio().get('http://137.184.91.38:5000/enduser');
+    //     print('hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+    //     print(response.statusCode);
+    //     if (response.statusCode! >= 200 && response.statusCode! <= 300) {
+    //       setState(() {
+    //         userList = response.data;
+    //         // print(response.data.toString());
+    //         // print(response.data.length());
+    //         print(userList.length);
+    //         print(userList[1]);
+    //         // print(userList.length());
+    //         print("userYesssssssssssssssssssssssssssssss");
+    //       });
+    //     } else {
+    //       print("Nooooooooooooooooooooooo");
+    //     }
+    //   } catch (e) {
+    //     // setState(() {});
+    //   }
   }
 
   void startTimer() {
@@ -185,11 +238,7 @@ class _OtpState extends State<Otp> {
                   _start == 0
                       ? TextButton(
                           onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Register()),
-                            );
+                            getProfile();
                           },
                           child: Text(
                             "Resend",
@@ -199,7 +248,13 @@ class _OtpState extends State<Otp> {
                           ))
                       : SizedBox(
                           height: 0,
-                        )
+                        ),
+                  Text(
+                    "For now just wait 10 second and click resend",
+                    style: TextStyle(
+                        fontFamily: 'Armstrong',
+                        color: Color.fromARGB(255, 171, 55, 58)),
+                  )
                 ],
               ),
             ),

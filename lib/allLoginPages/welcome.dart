@@ -3,11 +3,18 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:motoroctane/LandingPage/landingpage.dart';
+import 'package:motoroctane/navigator.dart';
 
 class Welcomee extends StatelessWidget {
-  Welcomee({super.key, required this.dp});
+  Welcomee(
+      {super.key,
+      required this.dp,
+      required this.firstname,
+      required this.lastname});
 
   XFile dp;
+  String firstname;
+  String lastname;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +53,7 @@ class Welcomee extends StatelessWidget {
                         text: "WELCOME ",
                         style: TextStyle(color: Colors.grey.shade600)),
                     TextSpan(
-                        text: 'NAME!',
+                        text: firstname.toUpperCase(),
                         style:
                             TextStyle(color: Color.fromARGB(255, 171, 55, 58)))
                   ],
@@ -84,7 +91,7 @@ class Welcomee extends StatelessWidget {
             ),
             Center(
               child: Text(
-                "Devid G. Kelvin",
+                "$firstname $lastname",
                 style: TextStyle(
                     color: Colors.grey.shade700,
                     fontWeight: FontWeight.w900,
@@ -96,24 +103,28 @@ class Welcomee extends StatelessWidget {
             ),
             Center(
               child: Text(
-                "Lorem ipsum dolor sitgna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut ais aute irure",
+                "MotorOctane: Aapka Auto Expert",
                 style: TextStyle(
-                    height: 1.2,
-                    color: Colors.grey.shade500,
+                    height: 1.4,
+                    fontWeight: FontWeight.w800,
+                    color: Color.fromARGB(255, 171, 55, 58),
                     fontFamily: 'Montserrat',
-                    fontSize: height * 0.017),
+                    fontSize: height * 0.02),
                 textAlign: TextAlign.center,
               ),
             ),
             SizedBox(
-              height: height * 0.049,
+              height: height * 0.085,
             ),
             Container(
               width: width * 0.6,
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.all(Radius.zero)),
               child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    Isloggedin inst = new Isloggedin();
+                    await inst.getProfile();
+
                     Navigator.pushAndRemoveUntil<dynamic>(
                         context,
                         MaterialPageRoute<dynamic>(

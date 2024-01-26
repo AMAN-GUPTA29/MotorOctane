@@ -1,3 +1,4 @@
+import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:motoroctane/privacypolicy/privacydata.dart';
 import 'package:motoroctane/widgets/headerFooter/footer.dart';
@@ -23,6 +24,16 @@ class PrivacyPolicy extends StatelessWidget {
       appBar: HeaderAlltest(
         appBar: AppBar(),
         drawerr: drawww,
+      ),
+      floatingActionButton: DraggableFab(
+        child: FloatingActionButton(
+          backgroundColor: Colors.white,
+          onPressed: () {
+            print("whatsapp");
+            // _scaffoldKey.currentState?.openDrawer();
+          },
+          child: Image.asset("assets/icons/whatsapp.png"),
+        ),
       ),
       body: Stack(
         children: [

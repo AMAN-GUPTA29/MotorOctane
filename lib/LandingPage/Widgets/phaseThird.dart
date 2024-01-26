@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:motoroctane/BrandPage/brandPage.dart';
 import 'package:motoroctane/LandingPage/Widgets/brandlist.dart';
@@ -13,126 +14,54 @@ class PhaseThird extends StatefulWidget {
 class _PhaseThirdState extends State<PhaseThird> {
   bool fullist = false;
 
-  static List<BrandLogo> Brands = [
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/first.png")),
-        BrandName: "First"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/second.png")),
-        BrandName: "Second"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/third.png")),
-        BrandName: "Third"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/fourth.png")),
-        BrandName: "Fourth"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/first.png")),
-        BrandName: "First"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/second.png")),
-        BrandName: "Second"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/third.png")),
-        BrandName: "Third"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/fourth.png")),
-        BrandName: "Fourth"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/first.png")),
-        BrandName: "First"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/second.png")),
-        BrandName: "Second"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/third.png")),
-        BrandName: "Third"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/fourth.png")),
-        BrandName: "Fourth"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/first.png")),
-        BrandName: "First"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/second.png")),
-        BrandName: "Second"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/third.png")),
-        BrandName: "Third"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/fourth.png")),
-        BrandName: "Fourth"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/first.png")),
-        BrandName: "First"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/second.png")),
-        BrandName: "Second"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/third.png")),
-        BrandName: "Third"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/fourth.png")),
-        BrandName: "Fourth"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/first.png")),
-        BrandName: "First"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/second.png")),
-        BrandName: "Second"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/third.png")),
-        BrandName: "Third"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/fourth.png")),
-        BrandName: "Fourth"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/first.png")),
-        BrandName: "First"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/second.png")),
-        BrandName: "Second"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/third.png")),
-        BrandName: "Third"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/fourth.png")),
-        BrandName: "Fourth"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/first.png")),
-        BrandName: "First"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/second.png")),
-        BrandName: "Second"),
-    BrandLogo(
-        BrandImage: Image(image: AssetImage("assets/image/carimage/third.png")),
-        BrandName: "Third"),
-    BrandLogo(
-        BrandImage:
-            Image(image: AssetImage("assets/image/carimage/fourth.png")),
-        BrandName: "Fourth"),
-  ];
+  @override
+  void initState() {
+    super.initState();
 
-  int k = Brands.length;
-  late double row = k / 4;
+    k = 0;
+    roww = 0;
+    getData();
+  }
+
+  var jsonList;
+  late int k;
+  late double roww;
+
+  void getData() async {
+    try {
+      var response = await Dio().get('http://137.184.91.38:5000/brands');
+      if (response.statusCode! >= 200 && response.statusCode! <= 300) {
+        setState(() {
+          jsonList = response.data;
+          print(
+              "====================================================================111111111111111");
+          print(jsonList);
+          print(
+              "====================================================================111111111111111");
+          k = jsonList.length;
+          if (k % 4 == 0) {
+            roww = k / 4;
+          } else {
+            roww = k / 4 + 1;
+          }
+          // print(jsonList);
+          // print(k);
+        });
+      }
+    } catch (e) {
+      setState(() {
+        k = 0;
+        roww = 0;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    // List<BrandLogo> brands = [];
+
+    late int row = roww.toInt();
+
     Size size = MediaQuery.of(context).size;
     double width = size.width;
     double height1 = size.height;
@@ -143,7 +72,11 @@ class _PhaseThirdState extends State<PhaseThird> {
     return Stack(
       children: [
         Container(
-          height: fullist ? row * height * 0.1215 : height * 0.31,
+          height: fullist
+              ? (row * height * 0.1037 + height * 0.15)
+              : k > 8
+                  ? height * 0.16 + height * 0.18
+                  : (row * height * 0.09 + height * 0.15),
           color: Colors.white,
           alignment: Alignment.bottomCenter,
           child: Image.asset(
@@ -187,34 +120,50 @@ class _PhaseThirdState extends State<PhaseThird> {
                     height: height * 0.01,
                   ),
                   Container(
-                    height: fullist ? row * height * 0.106 : height * 0.2,
+                    height: fullist
+                        ? k > 8
+                            ? row * height * 0.095 + (row - 2) * 0.0135 * height
+                            : row * height * 0.095
+                        : k > 8
+                            ? 2 * height * 0.099
+                            : row * height * 0.095,
                     child: GridView.count(
                       crossAxisCount: 4,
                       physics: NeverScrollableScrollPhysics(),
-                      children: List.generate(fullist ? k : 8, (index) {
+                      children: List.generate(
+                          fullist
+                              ? k
+                              : k > 8
+                                  ? 8
+                                  : k, (index) {
                         return Column(
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => BrandPage()),
-                                );
+                                Navigator.pushAndRemoveUntil<dynamic>(
+                                    context,
+                                    MaterialPageRoute<dynamic>(
+                                      builder: (BuildContext context) =>
+                                          BrandPage(
+                                        id: jsonList[index]["_id"],
+                                      ),
+                                    ),
+                                    (Route<dynamic> route) => false);
                               },
-                              child: Image(
-                                image: (Brands[index].BrandImage).image,
+                              child: Image.network(
+                                "http://137.184.91.38:5000/brandImages/${jsonList[index]["image"]}",
                                 alignment: Alignment.center,
-                                height: height * 0.033,
+                                height: height * 0.036,
                               ),
                             ),
                             SizedBox(
                               height: height * 0.015,
                             ),
                             Text(
-                              Brands[index].BrandName != null
-                                  ? (Brands[index].BrandName)
+                              jsonList[index]['name'] != null
+                                  ? (jsonList[index]['name'])
                                   : "default",
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontFamily: "Montserrat",
                                   fontWeight: FontWeight.bold,

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:motoroctane/LandingPage/Widgets/youtube.dart';
+import 'package:motoroctane/LandingPage/Widgets/youtubecontrolller.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PhaseFourth extends StatefulWidget {
@@ -12,40 +14,94 @@ class PhaseFourth extends StatefulWidget {
 
 class _PhaseFourthState extends State<PhaseFourth> {
   @override
-  Widget build(BuildContext context) {
-    List<YouTube> links = [
-      YouTube(
-        uRL: 'https://www.youtube.com/watch?v=SIEC489Jc9Q',
-        heading: "Green Plate",
-        content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor consectetur adipiscing",
-      ),
-      YouTube(
-        uRL: 'https://www.youtube.com/watch?v=AYwaLVahNbM',
-        heading: "Green Plate",
-        content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor consectetur adipiscing",
-      ),
-      YouTube(
-        uRL: 'https://www.youtube.com/watch?v=1a4Gs7fQ7X0',
-        heading: "Green Plate",
-        content:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor consectetur adipiscing",
-      ),
-    ];
+  void initState() {
+    // final videoID1 = YoutubePlayer.convertUrlToId(links[0].uRL);
+    // final videoID2 = YoutubePlayer.convertUrlToId(links[1].uRL);
+    // final videoID3 = YoutubePlayer.convertUrlToId(links[2].uRL);
 
+    // _controller1 = YoutubePlayerController(
+    //     initialVideoId: videoID1!,
+    //     flags: YoutubePlayerFlags(
+    //       autoPlay: false,
+    //       showLiveFullscreenButton: true,
+    //     ));
+
+    // setcontyoutube(3);
+
+    super.initState();
+  }
+
+  List<YouTube> links = [
+    YouTube(
+      uRL: 'https://www.youtube.com/watch?v=SIEC489Jc9Q',
+      heading: "Green Plate",
+      content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor consectetur adipiscing",
+    ),
+    YouTube(
+      uRL: 'https://www.youtube.com/watch?v=AYwaLVahNbM',
+      heading: "Green Plate",
+      content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor consectetur adipiscing",
+    ),
+    YouTube(
+      uRL: 'https://www.youtube.com/watch?v=1a4Gs7fQ7X0',
+      heading: "Green Plate",
+      content:
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolor consectetur adipiscing",
+    ),
+  ];
+
+  // YoutubePlayerController(
+  //                                 initialVideoId: YoutubePlayer.convertUrlToId(
+  //                                     links[index].uRL)!,
+  //                                 flags: YoutubePlayerFlags(
+  //                                   showLiveFullscreenButton: false,
+  //                                   autoPlay: false,
+  //                                 ))
+
+  // List<YoutubePlayerController> mainarrcont = [];
+
+  // Future<void> setcontyoutube(int nulm) async {
+  //   print("starttttt");
+  //   mainarrcont[0] = await YoutubePlayerController(
+  //       initialVideoId: YoutubePlayer.convertUrlToId(links[0].uRL)!,
+  //       flags: YoutubePlayerFlags(
+  //         showLiveFullscreenButton: false,
+  //         autoPlay: false,
+  //       ));
+  //   print("enddddddd");
+  //   mainarrcont[1] = await YoutubePlayerController(
+  //       initialVideoId: YoutubePlayer.convertUrlToId(links[1].uRL)!,
+  //       flags: YoutubePlayerFlags(
+  //         showLiveFullscreenButton: false,
+  //         autoPlay: false,
+  //       ));
+  //   mainarrcont[2] = await YoutubePlayerController(
+  //       initialVideoId: YoutubePlayer.convertUrlToId(links[2].uRL)!,
+  //       flags: YoutubePlayerFlags(
+  //         showLiveFullscreenButton: false,
+  //         autoPlay: false,
+  //       ));
+  // }
+  void removee() {
+    Navigator.pop(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     int count = 0;
 
-    YoutubePlayerController _controller;
+    // YoutubePlayerController _controller=YoutubePlayerController(initialVideoId: initialVideoId);
 
     // YoutubePlayerController? _controller2;
     // YoutubePlayerController? _controller3;
 
     @override
-    void initState() async {
-      final videoID1 = YoutubePlayer.convertUrlToId(links[0].uRL);
-      final videoID2 = YoutubePlayer.convertUrlToId(links[1].uRL);
-      final videoID3 = YoutubePlayer.convertUrlToId(links[2].uRL);
+    void initState() {
+      // final videoID1 = YoutubePlayer.convertUrlToId(links[0].uRL);
+      // final videoID2 = YoutubePlayer.convertUrlToId(links[1].uRL);
+      // final videoID3 = YoutubePlayer.convertUrlToId(links[2].uRL);
 
       // _controller1 = YoutubePlayerController(
       //     initialVideoId: videoID1!,
@@ -128,19 +184,25 @@ class _PhaseFourthState extends State<PhaseFourth> {
                           height: height * 0.22,
                           width: width * 0.61,
                           color: Colors.red,
-                          child: YoutubePlayer(
-                            controller: YoutubePlayerController(
-                              initialVideoId: YoutubePlayer.convertUrlToId(
-                                  links[index].uRL)!,
-                              flags: YoutubePlayerFlags(
-                                autoPlay: false,
-                              ),
+                          child: VisibilityDetector(
+                            key: ObjectKey("k"),
+                            onVisibilityChanged: (VisibilityInfo info) {
+                              if (info.visibleFraction == 0) {
+                                YoutubePlayerController currentcont =
+                                    Controlleryoutube.access();
+                                Controlleryoutube.disposeyoutubecont(
+                                    currentcont);
+                              }
+                            },
+                            child: YoutubePlayer(
+                              controller: Controlleryoutube.assigncont(
+                                  links[index].uRL),
+                              showVideoProgressIndicator: true,
+                              progressIndicatorColor: Colors.blue,
+                              progressColors: ProgressBarColors(
+                                  playedColor: Colors.blue,
+                                  handleColor: Colors.blueAccent),
                             ),
-                            showVideoProgressIndicator: true,
-                            progressIndicatorColor: Colors.blue,
-                            progressColors: ProgressBarColors(
-                                playedColor: Colors.blue,
-                                handleColor: Colors.blueAccent),
                           ),
                         ),
                         Container(

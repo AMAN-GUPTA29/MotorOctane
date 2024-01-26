@@ -15,7 +15,7 @@ class HeaderAll extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     void _setScreen(String identfier) async {
-      if (identfier == 'filters') {
+      if (identfier == 'filterss') {
         // Navigator.of(context).pop();
         // await Navigator.of(context).push<Map<Filter, bool>>(
         //   MaterialPageRoute(

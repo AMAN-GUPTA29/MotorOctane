@@ -3,7 +3,10 @@ import 'package:motoroctane/OwnerReview/inputpage.dart';
 import 'package:motoroctane/Youtube/youTube.dart';
 import 'package:motoroctane/aboutus/aboutUs.dart';
 import 'package:motoroctane/allLoginPages/loginpage.dart';
+import 'package:motoroctane/allLoginPages/secureStorage.dart';
+import 'package:motoroctane/navigator.dart';
 import 'package:motoroctane/servicePage.dart/ServiceNetwork.dart';
+import 'package:motoroctane/widgets/headerFooter/test.dart';
 
 class NavDrawer extends StatelessWidget {
   @override
@@ -40,7 +43,13 @@ class NavDrawer extends StatelessWidget {
                         ],
                         borderRadius: BorderRadius.all(Radius.circular(20))),
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        await SecureStorage().deleteSecureData('_id');
+                        await SecureStorage().deleteSecureData('mobile');
+
+                        Isloggedin inst = new Isloggedin();
+                        await inst.resetClass();
+
                         Navigator.pushAndRemoveUntil<dynamic>(
                             context,
                             MaterialPageRoute<dynamic>(
@@ -89,11 +98,18 @@ class NavDrawer extends StatelessWidget {
             child: ListTile(
               title: Text('Youtube videos'),
               onTap: () => {
-                Navigator.pop(context),
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Youtube()),
-                ),
+                // Navigator.pop(context),
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => Youtube()),
+                // ),
+
+                Navigator.pushAndRemoveUntil<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => Youtube(),
+                    ),
+                    (Route<dynamic> route) => false)
               },
             ),
           ),
@@ -102,10 +118,12 @@ class NavDrawer extends StatelessWidget {
             child: ListTile(
               title: Text('Share Reviews'),
               onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => InputPage()),
-                )
+                Navigator.pushAndRemoveUntil<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => InputPage(),
+                    ),
+                    (Route<dynamic> route) => false)
               },
             ),
           ),
@@ -129,10 +147,12 @@ class NavDrawer extends StatelessWidget {
             child: ListTile(
               title: Text('About Us'),
               onTap: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AboutUs()),
-                )
+                Navigator.pushAndRemoveUntil<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => AboutUs(),
+                    ),
+                    (Route<dynamic> route) => false)
               },
             ),
           ),
@@ -148,10 +168,24 @@ class NavDrawer extends StatelessWidget {
             child: ListTile(
               title: Text('Service Network'),
               onTap: () => {
+                Navigator.pushAndRemoveUntil<dynamic>(
+                    context,
+                    MaterialPageRoute<dynamic>(
+                      builder: (BuildContext context) => ServiceNetwork(),
+                    ),
+                    (Route<dynamic> route) => false)
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: ListTile(
+              title: Text('Test'),
+              onTap: () => {
                 Navigator.pop(context),
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ServiceNetwork()),
+                  MaterialPageRoute(builder: (context) => Test()),
                 )
               },
             ),

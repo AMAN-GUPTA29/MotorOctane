@@ -61,12 +61,12 @@ class Welcome extends StatelessWidget {
         MaterialPageRoute(builder: (context) => PrivacyPolicy()),
       );
     }
-    if (value == 'Branding') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => BrandPage()),
-      );
-    }
+    // if (value == 'Branding') {
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => BrandPage()),
+    //   );
+    // }
     if (value == 'Landing') {
       Navigator.push(
         context,
@@ -133,12 +133,12 @@ class Welcome extends StatelessWidget {
         MaterialPageRoute(builder: (context) => AboutUs()),
       );
     }
-    if (value == 'Product') {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => ProductPage()),
-      );
-    }
+    // if (value == 'Product') {
+    //   Navigator.push(
+    //     context,
+    //     MaterialPageRoute(builder: (context) => ProductPage()),
+    //   );
+    // }
   }
 
   @override

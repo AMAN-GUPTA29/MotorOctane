@@ -1,6 +1,12 @@
+// import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:convert';
+import 'package:http/http.dart';
 import 'package:motoroctane/allLoginPages/otp.dart';
+import 'package:motoroctane/allLoginPages/secureStorage.dart';
+import 'package:motoroctane/navigator.dart';
 import 'package:motoroctane/privacypolicy/privacypolicy.dart';
 import 'package:motoroctane/widgets/complete_check.dart';
 
@@ -18,6 +24,67 @@ class _signinpageState extends State<signinpage> {
   var verify = "";
   bool ischeckedtermsandCoindition = false;
   int pad = 1;
+
+  //  showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return Center(
+  //         child: CircularProgressIndicator(
+  //           color: Color.fromARGB(255, 171, 55, 58),
+  //         ),
+  //       );
+  //     },
+  //   );
+
+  Future<void> postPhone() async {
+    final uri =
+        Uri.parse(dotenv.env['REGISTRATION_DATA_MOBILE_POST_URL'] ?? "Empty");
+    final headers = {'Content-Type': 'application/json'};
+    Map<String, dynamic> body = {'mobile': phone};
+    String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    Response response = await post(
+      uri,
+      headers: headers,
+      body: jsonBody,
+      encoding: encoding,
+    );
+
+    int statusCode = response.statusCode;
+    var responseBody = jsonDecode(response.body);
+
+    print(statusCode);
+    print(responseBody);
+    print("hei");
+
+    if (responseBody["_id"] != null) {
+      await SecureStorage().writeSecureData('_id', responseBody["_id"]);
+      await SecureStorage().writeSecureData('image', responseBody["image"]);
+      await SecureStorage().writeSecureData('fname', responseBody["fname"]);
+      await SecureStorage().writeSecureData('lname', responseBody["lname"]);
+      await SecureStorage().writeSecureData('email', responseBody["email"]);
+      await SecureStorage().writeSecureData('mobile', responseBody["mobile"]);
+      await SecureStorage().writeSecureData('pin', responseBody["pin"]);
+      await SecureStorage().writeSecureData('DOB', responseBody["DOB"]);
+      Isloggedin inst = new Isloggedin();
+      await inst.getProfile();
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Otp()),
+    );
+
+    // print(SecureStorage().readSecureData('_id'));
+    // print(SecureStorage().readSecureData('image'));
+    // print(SecureStorage().readSecureData('fname'));
+    // print(SecureStorage().readSecureData('lname'));
+    // print(SecureStorage().readSecureData('email'));
+    // print(SecureStorage().readSecureData('mobile'));
+    // print(SecureStorage().readSecureData('pin'));
+    // print(SecureStorage().readSecureData('DOB'));
+  }
 
   @override
   void initState() {
@@ -201,10 +268,13 @@ class _signinpageState extends State<signinpage> {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Otp()),
-                    );
+                    print(countryController.text);
+                    print(phone);
+                    postPhone();
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => Otp()),
+                    // );
                   },
                   child: Text(
                     'Get OTP',
@@ -218,7 +288,11 @@ class _signinpageState extends State<signinpage> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(0))),
                 ),
-              )
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Text("For now just click Get otp button")
             ],
           ),
         ),

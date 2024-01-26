@@ -1029,11 +1029,11 @@ class _AssistmeSixthState extends State<AssistmeSixth> {
                             ),
                             OutlinedButton(
                               onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ProductPage()),
-                                );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //       builder: (context) => ProductPage()),
+                                // );
                               },
                               style: OutlinedButton.styleFrom(
                                   shape: RoundedRectangleBorder(),

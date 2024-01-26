@@ -1,5 +1,7 @@
+import 'package:draggable_fab/draggable_fab.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:motoroctane/LandingPage/landingpage.dart';
 import 'package:motoroctane/Youtube/youtubestructure.dart';
 import 'package:motoroctane/widgets/headerFooter/footer.dart';
 import 'package:motoroctane/widgets/headerFooter/header.dart';
@@ -7,10 +9,31 @@ import 'package:motoroctane/widgets/headerFooter/headertest.dart';
 import 'package:motoroctane/widgets/headerFooter/navDrawer.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class Youtube extends StatelessWidget {
+class Youtube extends StatefulWidget {
   Youtube({super.key});
 
+  @override
+  State<Youtube> createState() => _YoutubeState();
+}
+
+class _YoutubeState extends State<Youtube> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  // tomove() {
+  //   Navigator.pushAndRemoveUntil<dynamic>(
+  //       context,
+  //       MaterialPageRoute<dynamic>(
+  //         builder: (BuildContext context) => LandingPage(),
+  //       ),
+  //       (Route<dynamic> route) =>
+  //           false //if you want to disable back feature set to false
+  //       );
+  // }
+
+  // void dispose() async {
+  //   tomove();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,172 +74,193 @@ class Youtube extends StatelessWidget {
       _scaffoldKey.currentState?.openDrawer();
     };
 
-    return Scaffold(
-      drawer: NavDrawer(),
-      key: _scaffoldKey,
-      backgroundColor: Colors.white,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Image.asset("assets/icons/whatsapp.png"),
-      ),
-      appBar: HeaderAlltest(
-        appBar: AppBar(),
-        drawerr: drawww,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.asset(
-              'assets/image/landing/landing.jpg',
-              width: double.infinity,
-              // height: height * 0.23,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pushAndRemoveUntil<dynamic>(
+            context,
+            MaterialPageRoute<dynamic>(
+              builder: (BuildContext context) => LandingPage(),
             ),
-            SizedBox(
-              height: height * 0.02,
-            ),
-            Padding(
-              padding:
-                  EdgeInsets.only(left: width * 0.025, right: width * 0.025),
-              child: Container(
+            (Route<dynamic> route) => false
+            //if you want to disable back feature set to false
+            );
+
+        return false;
+      },
+      child: Scaffold(
+        floatingActionButton: DraggableFab(
+          // initPosition: Offset(900, 900),
+          child: FloatingActionButton(
+            backgroundColor: Colors.white,
+            onPressed: () {
+              print("whatsapp");
+              // _scaffoldKey.currentState?.openDrawer();
+            },
+            child: Image.asset("assets/icons/whatsapp.png"),
+          ),
+        ),
+        drawer: NavDrawer(),
+        key: _scaffoldKey,
+        backgroundColor: Colors.white,
+        appBar: HeaderAlltest(
+          appBar: AppBar(),
+          drawerr: drawww,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Image.asset(
+                'assets/image/landing/landing.jpg',
                 width: double.infinity,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // height: height * 0.23,
+              ),
+              SizedBox(
+                height: height * 0.02,
+              ),
+              Padding(
+                padding:
+                    EdgeInsets.only(left: width * 0.025, right: width * 0.025),
+                child: Container(
+                  width: double.infinity,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        height: height * 0.04,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            padding: EdgeInsetsDirectional.only(
+                                start: width * 0.12, end: width * 0.12),
+                          ),
+                          child: Text(
+                            'FILTER 1',
+                            style: TextStyle(
+                                fontSize: width * 0.032,
+                                letterSpacing: width * 0.0053,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade600),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        height: height * 0.04,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            padding: EdgeInsetsDirectional.only(
+                                start: width * 0.12, end: width * 0.12),
+                          ),
+                          child: Text(
+                            'FILTER 2',
+                            style: TextStyle(
+                                fontSize: width * 0.032,
+                                letterSpacing: width * 0.0053,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade600),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                alignment: Alignment.center,
+                width: width * 0.95,
+                child: Column(
                   children: [
-                    Container(
-                      height: height * 0.04,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          padding: EdgeInsetsDirectional.only(
-                              start: width * 0.12, end: width * 0.12),
-                        ),
-                        child: Text(
-                          'FILTER 1',
-                          style: TextStyle(
-                              fontSize: width * 0.032,
-                              letterSpacing: width * 0.0053,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey.shade600),
+                    for (var i = 0; i < links.length; i++)
+                      Container(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              right: width * 0.02, left: width * 0.02),
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                top: height * 0.020, bottom: height * 0.012),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(14),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 1),
+                                  blurRadius: 5,
+                                  color: Colors.black.withOpacity(0.3),
+                                ),
+                              ],
+                            ),
+                            margin: EdgeInsets.all(height * 0.008),
+                            child: Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 15),
+                                  color: Colors.red,
+                                  child: YoutubePlayer(
+                                    controller: YoutubePlayerController(
+                                      initialVideoId:
+                                          YoutubePlayer.convertUrlToId(
+                                              links[i].uRL)!,
+                                      flags: YoutubePlayerFlags(
+                                        autoPlay: false,
+                                      ),
+                                    ),
+                                    showVideoProgressIndicator: true,
+                                    progressIndicatorColor: Colors.blue,
+                                    progressColors: ProgressBarColors(
+                                        playedColor: Colors.blue,
+                                        handleColor: Colors.blueAccent),
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: width * 0.04,
+                                        right: width * 0.04,
+                                        top: height * 0.008),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          links[i].heading,
+                                          style: TextStyle(
+                                              fontSize: height * 0.015,
+                                              color: Colors.grey.shade600,
+                                              fontWeight: FontWeight.w800,
+                                              fontFamily: "Montserrat"),
+                                        ),
+                                        SizedBox(
+                                          height: height * 0.005,
+                                        ),
+                                        Text(
+                                          links[i].content,
+                                          style: TextStyle(
+                                              fontSize: height * 0.0101,
+                                              color: Colors.grey.shade600,
+                                              fontFamily: "Montserrat"),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      height: height * 0.04,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          padding: EdgeInsetsDirectional.only(
-                              start: width * 0.12, end: width * 0.12),
-                        ),
-                        child: Text(
-                          'FILTER 2',
-                          style: TextStyle(
-                              fontSize: width * 0.032,
-                              letterSpacing: width * 0.0053,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey.shade600),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              alignment: Alignment.center,
-              width: width * 0.95,
-              child: Column(
-                children: [
-                  for (var i = 0; i < links.length; i++)
-                    Container(
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            right: width * 0.02, left: width * 0.02),
-                        child: Container(
-                          padding: EdgeInsets.only(
-                              top: height * 0.020, bottom: height * 0.012),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(14),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0, 1),
-                                blurRadius: 5,
-                                color: Colors.black.withOpacity(0.3),
-                              ),
-                            ],
-                          ),
-                          margin: EdgeInsets.all(height * 0.008),
-                          child: Column(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 15),
-                                color: Colors.red,
-                                child: YoutubePlayer(
-                                  controller: YoutubePlayerController(
-                                    initialVideoId:
-                                        YoutubePlayer.convertUrlToId(
-                                            links[i].uRL)!,
-                                    flags: YoutubePlayerFlags(
-                                      autoPlay: false,
-                                    ),
-                                  ),
-                                  showVideoProgressIndicator: true,
-                                  progressIndicatorColor: Colors.blue,
-                                  progressColors: ProgressBarColors(
-                                      playedColor: Colors.blue,
-                                      handleColor: Colors.blueAccent),
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: width * 0.04,
-                                      right: width * 0.04,
-                                      top: height * 0.008),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        links[i].heading,
-                                        style: TextStyle(
-                                            fontSize: height * 0.015,
-                                            color: Colors.grey.shade600,
-                                            fontWeight: FontWeight.w800,
-                                            fontFamily: "Montserrat"),
-                                      ),
-                                      SizedBox(
-                                        height: height * 0.005,
-                                      ),
-                                      Text(
-                                        links[i].content,
-                                        style: TextStyle(
-                                            fontSize: height * 0.0101,
-                                            color: Colors.grey.shade600,
-                                            fontFamily: "Montserrat"),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            Footer(),
-          ],
+              Footer(),
+            ],
+          ),
         ),
       ),
     );

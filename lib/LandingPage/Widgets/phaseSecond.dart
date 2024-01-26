@@ -1,18 +1,111 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:motoroctane/productpage/productPage.dart';
 import 'package:signed_spacing_flex/signed_spacing_flex.dart';
 
 class SecondPhase extends StatefulWidget {
-  const SecondPhase({super.key});
+  SecondPhase(
+      {super.key,
+      required this.popularcarList,
+      required this.newcarList,
+      required this.upcomingcarList});
+
+  var popularcarList;
+  var newcarList;
+  var upcomingcarList;
 
   @override
-  State<SecondPhase> createState() => _SecondPhaseState();
+  State<SecondPhase> createState() => _SecondPhaseState(popularcarList);
 }
 
 class _SecondPhaseState extends State<SecondPhase> {
   ScrollController _controller = new ScrollController();
   double position = 0;
+
+  var featuredCarList;
+  _SecondPhaseState(this.featuredCarList);
+
+  String split(String string, {int max = 0}) {
+    var result = <String>[];
+    String separator = "</li>";
+    String ans = "";
+
+    if (string == "null") {
+      return "null";
+    }
+
+    string = string
+        .replaceAll("<ul>", "")
+        .replaceAll("</ul>", "")
+        .replaceAll("<li>", "");
+
+    while (true) {
+      var index = string.indexOf(separator, 0);
+      if (index == -1 || (max > 0 && result.length >= max)) {
+        result.add(string);
+        break;
+      }
+
+      result.add(string.substring(0, index));
+      string = string.substring(index + separator.length);
+    }
+
+    result.removeLast();
+
+    print(result);
+
+    ans = json.encode(result);
+
+    ans = ans.replaceAll("[", "").replaceAll("]", "").replaceAll('"', "");
+    // print("*****111376889090-****************************");
+    // print(ans);
+    // print("*****111376889090-****************************");
+    return ans;
+  }
+
+  String split2(String string, {int max = 0}) {
+    var result = <String>[];
+    String separator = "</li>";
+    String ans = "";
+
+    if (string == "null") {
+      return "null";
+    }
+
+    string = string
+        .replaceAll("<ul>", "")
+        .replaceAll("</ul>", "")
+        .replaceAll("<li>", "");
+
+    while (true) {
+      var index = string.indexOf(separator, 0);
+      if (index == -1 || (max > 0 && result.length >= max)) {
+        result.add(string);
+        break;
+      }
+
+      result.add(string.substring(0, index));
+      string = string.substring(index + separator.length);
+    }
+
+    result.removeLast();
+
+    print(result);
+
+    ans = json.encode(result);
+
+    ans = ans
+        .replaceAll("[", "")
+        .replaceAll("]", "")
+        .replaceAll('"', "")
+        .replaceAll(',', " ");
+    // print("*****111376889090-****************************");
+    // print(ans);
+    // print("*****111376889090-****************************");
+    return ans;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +116,14 @@ class _SecondPhaseState extends State<SecondPhase> {
 // Height (without SafeArea)
     final padding = MediaQuery.of(context).viewPadding;
     double height = height1 - padding.top - padding.bottom;
+
+    @override
+    void dispose() {
+      _controller.dispose();
+      // ignore: avoid_print
+
+      super.dispose();
+    }
 
     return Stack(
       children: [
@@ -36,26 +137,26 @@ class _SecondPhaseState extends State<SecondPhase> {
         //   ),
         // ),
         Container(
-          height: height * 0.52,
+          height: height * 0.55,
           child: Column(
             children: [
               Container(
-                height: height * 0.17,
+                height: height * 0.18,
                 color: Colors.grey.shade300,
               ),
               Container(
-                height: height * 0.17,
+                height: height * 0.18,
                 color: Colors.white,
               ),
               Container(
-                height: height * 0.17,
+                height: height * 0.18,
                 color: Colors.grey.shade400,
               )
             ],
           ),
         ),
         Container(
-          height: height * 0.51,
+          height: height * 0.53,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -92,7 +193,13 @@ class _SecondPhaseState extends State<SecondPhase> {
                       ClipPath(
                         clipper: Clip1Clipper(),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            setState(() {
+                              print("popular assigned");
+                              featuredCarList = widget.popularcarList;
+                            });
+                            print(featuredCarList.length);
+                          },
                           child: Container(
                             alignment: Alignment.center,
                             height: height * 0.053,
@@ -115,7 +222,13 @@ class _SecondPhaseState extends State<SecondPhase> {
                       ClipPath(
                         clipper: Clip2Clipper(),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            print("new assigned");
+                            setState(() {
+                              featuredCarList = widget.newcarList;
+                            });
+                            print(featuredCarList.length);
+                          },
                           child: Container(
                             alignment: Alignment.center,
                             height: height * 0.053,
@@ -138,7 +251,14 @@ class _SecondPhaseState extends State<SecondPhase> {
                       ClipPath(
                         clipper: Clip2Clipper(),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            print("upcoming assigned");
+                            setState(() {
+                              featuredCarList = widget.upcomingcarList;
+                            });
+
+                            print(featuredCarList.length);
+                          },
                           child: Container(
                             alignment: Alignment.center,
                             height: height * 0.053,
@@ -190,19 +310,22 @@ class _SecondPhaseState extends State<SecondPhase> {
                   padding: EdgeInsets.only(left: width * 0.017),
                   child: Container(
                     width: double.infinity,
-                    height: height * 0.403,
+                    height: height * 0.425,
                     child: ListView.builder(
-                      itemCount: 6,
+                      itemCount: featuredCarList.length,
                       scrollDirection: Axis.horizontal,
                       controller: _controller,
                       // shrinkWrap: true,
                       itemBuilder: ((ctx, index) => InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProductPage()),
-                              );
+                              Navigator.pushAndRemoveUntil<dynamic>(
+                                  context,
+                                  MaterialPageRoute<dynamic>(
+                                    builder: (BuildContext context) =>
+                                        ProductPage(
+                                            id: featuredCarList[index]['_id']),
+                                  ),
+                                  (Route<dynamic> route) => false);
                             },
                             child: Container(
                               alignment: Alignment.center,
@@ -284,7 +407,7 @@ class _SecondPhaseState extends State<SecondPhase> {
                                         child: Row(
                                           children: [
                                             Text(
-                                              "4.2",
+                                              "${featuredCarList[index]["rating"]}",
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,
@@ -314,8 +437,8 @@ class _SecondPhaseState extends State<SecondPhase> {
                                     width: width * 0.4,
                                     decoration: BoxDecoration(
                                       image: DecorationImage(
-                                        image: AssetImage(
-                                            'assets/image/landing/second.png'),
+                                        image: NetworkImage(
+                                            "http://137.184.91.38:5000/productImages/${featuredCarList[index]["heroimage"]}"),
                                       ),
                                     ),
                                   ),
@@ -327,7 +450,7 @@ class _SecondPhaseState extends State<SecondPhase> {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Mercedes-Benz",
+                                        "${featuredCarList[index]["brand"]["name"]}",
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                             fontFamily: 'Armstrong',
@@ -337,7 +460,7 @@ class _SecondPhaseState extends State<SecondPhase> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        "E-Class Cabriolet",
+                                        "${featuredCarList[index]["carname"]}",
                                         textAlign: TextAlign.left,
                                         style: TextStyle(
                                             fontFamily: 'Armstrong',
@@ -370,31 +493,35 @@ class _SecondPhaseState extends State<SecondPhase> {
                                                 SizedBox(
                                                   width: width * 0.017,
                                                 ),
-                                                Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      '5,7,8',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              height * 0.0125,
-                                                          color: Colors
-                                                              .grey.shade600),
-                                                    ),
-                                                    Text(
-                                                      'Seater',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              height * 0.0125,
-                                                          color: Colors
-                                                              .grey.shade600),
-                                                    )
-                                                  ],
+                                                Container(
+                                                  width: width * 0.09,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        "${split(featuredCarList[index]["seater"] == null ? "null" : featuredCarList[index]["seater"])}",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize:
+                                                                height * 0.0125,
+                                                            color: Colors
+                                                                .grey.shade600),
+                                                      ),
+                                                      Text(
+                                                        'Seater',
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize:
+                                                                height * 0.0125,
+                                                            color: Colors
+                                                                .grey.shade600),
+                                                      )
+                                                    ],
+                                                  ),
                                                 )
                                               ],
                                             ),
@@ -417,7 +544,7 @@ class _SecondPhaseState extends State<SecondPhase> {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
-                                                      'NCAP NA*',
+                                                      "${featuredCarList[index]["NCAP"]}",
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
@@ -455,52 +582,25 @@ class _SecondPhaseState extends State<SecondPhase> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Petrol',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              height * 0.0125,
-                                                          color: Colors
-                                                              .grey.shade600),
-                                                    ),
-                                                    Text(
-                                                      'Petrol',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              height * 0.0125,
-                                                          color: Colors
-                                                              .grey.shade600),
-                                                    ),
-                                                    Text(
-                                                      'Petrol',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              height * 0.0125,
-                                                          color: Colors
-                                                              .grey.shade600),
-                                                    ),
-                                                    Text(
-                                                      'Petrol',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              height * 0.0125,
-                                                          color: Colors
-                                                              .grey.shade600),
+                                                    Container(
+                                                      width: width * 0.09,
+                                                      child: Text(
+                                                        "${split2(featuredCarList[index]["fueltype"] == null ? "null" : featuredCarList[index]["fueltype"])}",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize:
+                                                                height * 0.0125,
+                                                            color: Colors
+                                                                .grey.shade600),
+                                                      ),
                                                     ),
                                                   ],
                                                 )
                                               ],
                                             ),
                                             SizedBox(
-                                              width: width * 0.056,
+                                              width: width * 0.047,
                                             ),
                                             Row(
                                               children: [
@@ -517,45 +617,18 @@ class _SecondPhaseState extends State<SecondPhase> {
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
-                                                    Text(
-                                                      'Auto',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              height * 0.0125,
-                                                          color: Colors
-                                                              .grey.shade600),
-                                                    ),
-                                                    Text(
-                                                      'Manual',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              height * 0.0125,
-                                                          color: Colors
-                                                              .grey.shade600),
-                                                    ),
-                                                    Text(
-                                                      'Auto',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              height * 0.0125,
-                                                          color: Colors
-                                                              .grey.shade600),
-                                                    ),
-                                                    Text(
-                                                      'Manual',
-                                                      style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          fontSize:
-                                                              height * 0.0125,
-                                                          color: Colors
-                                                              .grey.shade600),
+                                                    Container(
+                                                      width: width * 0.138,
+                                                      child: Text(
+                                                        "${split2(featuredCarList[index]["transmissiontype"] == null ? "null" : featuredCarList[index]["transmissiontype"])}",
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize:
+                                                                height * 0.0125,
+                                                            color: Colors
+                                                                .grey.shade600),
+                                                      ),
                                                     ),
                                                   ],
                                                 )

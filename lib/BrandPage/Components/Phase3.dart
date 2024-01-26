@@ -202,11 +202,13 @@ class _SecondPhaseState extends State<SecondPhaseBrand> {
                         // shrinkWrap: true,
                         itemBuilder: ((ctx, index) => InkWell(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => ProductPage()),
-                                );
+                                // Navigator.pushAndRemoveUntil<dynamic>(
+                                //     context,
+                                //     MaterialPageRoute<dynamic>(
+                                //       builder: (BuildContext context) =>
+                                //           ProductPage(),
+                                //     ),
+                                //     (Route<dynamic> route) => false);
                               },
                               child: Container(
                                 alignment: Alignment.center,

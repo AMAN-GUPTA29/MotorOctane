@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:motoroctane/productpage/productPage.dart';
 import 'package:signed_spacing_flex/signed_spacing_flex.dart';
 
 class myShortlist extends StatefulWidget {
@@ -93,7 +94,15 @@ class _SecondPhaseState extends State<myShortlist> {
                       controller: _controller,
                       // shrinkWrap: true,
                       itemBuilder: ((ctx, index) => InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              // Navigator.pushAndRemoveUntil<dynamic>(
+                              //     context,
+                              //     MaterialPageRoute<dynamic>(
+                              //       builder: (BuildContext context) =>
+                              //           ProductPage(),
+                              //     ),
+                              //     (Route<dynamic> route) => false);
+                            },
                             child: Container(
                               alignment: Alignment.center,
                               decoration: BoxDecoration(
